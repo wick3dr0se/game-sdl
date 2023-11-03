@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="dev\imgui\imgui.cpp">
+      <Filter>dev\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\imgui\imgui_demo.cpp">
+      <Filter>dev\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\imgui\imgui_draw.cpp">
+      <Filter>dev\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\imgui\imgui_impl_sdl.cpp">
+      <Filter>dev\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\imgui\imgui_impl_sdlrenderer.cpp">
+      <Filter>dev\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\imgui\imgui_tables.cpp">
+      <Filter>dev\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="dev\imgui\imgui_widgets.cpp">
+      <Filter>dev\imgui</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="dev">
+      <UniqueIdentifier>{1372373d-6f98-4bc2-ab4b-15d886162980}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dev\imgui">
+      <UniqueIdentifier>{e75a0a31-1cd9-437d-a7cc-231fa9e0f133}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="dev\imgui\imconfig.h">
+      <Filter>dev\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="dev\imgui\imgui.h">
+      <Filter>dev\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="dev\imgui\imgui_impl_sdl.h">
+      <Filter>dev\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="dev\imgui\imgui_impl_sdlrenderer.h">
+      <Filter>dev\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="dev\imgui\imgui_internal.h">
+      <Filter>dev\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="dev\imgui\imstb_rectpack.h">
+      <Filter>dev\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="dev\imgui\imstb_textedit.h">
+      <Filter>dev\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="dev\imgui\imstb_truetype.h">
+      <Filter>dev\imgui</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
