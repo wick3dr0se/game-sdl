@@ -149,6 +149,7 @@
     <ClCompile Include="dev\imgui\imgui_tables.cpp" />
     <ClCompile Include="dev\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TextureManager.cpp" />
   </ItemGroup>
@@ -162,6 +163,7 @@
     <ClInclude Include="dev\imgui\imstb_textedit.h" />
     <ClInclude Include="dev\imgui\imstb_truetype.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="TextureManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

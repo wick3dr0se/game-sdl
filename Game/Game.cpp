@@ -1,11 +1,12 @@
 #include "Game.h"
 #include "TextureManager.h"
+#include "GameObject.h"
 #include "dev/imgui/imgui.h"
 #include "dev/imgui/imgui_impl_sdl.h"
 #include "dev/imgui/imgui_impl_sdlrenderer.h"
 
-SDL_Texture* playerTex;
-SDL_Rect* srcRect, destRect;
+GameObject* player;
+GameObject* enemy;
 
 Game::Game()
 {}
@@ -51,7 +52,8 @@ void Game::init(const char* title, int x, int y, int w, int h, bool fullscreen)
         isRunning = false;
     }
 
-    playerTex = TextureManager::LoadTexture("assets/player.bmp", renderer);
+    player = new GameObject("assets/player.bmp", renderer, 0, 0);
+    enemy = new GameObject("assets/enemy.bmp", renderer, 32, 32);
 }
 
 void Game::preRender()
@@ -79,18 +81,16 @@ void Game::handleEvents()
 
 void Game::update()
 {
-    cnt++; 
-    destRect.h = 32;
-    destRect.w = 32;
-    destRect.x = cnt;
-
+    player->Update();
+    enemy->Update();
     ImGui::ShowDemoWindow();
 }
 
 void Game::render()
 {
     SDL_RenderClear(renderer);
-    SDL_RenderCopy(renderer, playerTex, NULL, &destRect);
+    player->Render();
+    enemy->Render();
     ImGui::Render();
     ImGui_ImplSDLRenderer_RenderDrawData(ImGui::GetDrawData());
     SDL_RenderPresent(renderer);
