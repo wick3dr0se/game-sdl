@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "TextureManager.h"
 #include "dev/imgui/imgui.h"
 #include "dev/imgui/imgui_impl_sdl.h"
 #include "dev/imgui/imgui_impl_sdlrenderer.h"
@@ -50,15 +51,7 @@ void Game::init(const char* title, int x, int y, int w, int h, bool fullscreen)
         isRunning = false;
     }
 
-    SDL_Surface* tmpSurface = SDL_LoadBMP("assets/player.bmp");
-    if (tmpSurface)
-    {
-        std::cout << "Texture" << std::endl;
-    } else {
-        std::cout << SDL_GetError() << std::endl;
-    }
-    playerTex = SDL_CreateTextureFromSurface(renderer, tmpSurface);
-    SDL_FreeSurface(tmpSurface);
+    playerTex = TextureManager::LoadTexture("assets/player.bmp", renderer);
 }
 
 void Game::preRender()
