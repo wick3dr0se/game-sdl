@@ -3,6 +3,9 @@
 #include "dev/imgui/imgui_impl_sdl.h"
 #include "dev/imgui/imgui_impl_sdlrenderer.h"
 
+SDL_Texture* playerTex;
+SDL_Rect* srcRect, destRect;
+
 Game::Game()
 {}
 Game::~Game()
@@ -46,6 +49,16 @@ void Game::init(const char* title, int x, int y, int w, int h, bool fullscreen)
     } else {
         isRunning = false;
     }
+
+    SDL_Surface* tmpSurface = SDL_LoadBMP("assets/player.bmp");
+    if (tmpSurface)
+    {
+        std::cout << "Texture" << std::endl;
+    } else {
+        std::cout << SDL_GetError() << std::endl;
+    }
+    playerTex = SDL_CreateTextureFromSurface(renderer, tmpSurface);
+    SDL_FreeSurface(tmpSurface);
 }
 
 void Game::preRender()
@@ -73,14 +86,18 @@ void Game::handleEvents()
 
 void Game::update()
 {
-    cnt++;
-    std::cout << cnt << std::endl;
+    cnt++; 
+    destRect.h = 32;
+    destRect.w = 32;
+    destRect.x = cnt;
+
     ImGui::ShowDemoWindow();
 }
 
 void Game::render()
 {
     SDL_RenderClear(renderer);
+    SDL_RenderCopy(renderer, playerTex, NULL, &destRect);
     ImGui::Render();
     ImGui_ImplSDLRenderer_RenderDrawData(ImGui::GetDrawData());
     SDL_RenderPresent(renderer);
