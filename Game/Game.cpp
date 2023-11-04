@@ -1,4 +1,4 @@
-#include "Game.hpp"
+#include "Game.h"
 #include "dev/imgui/imgui.h"
 #include "dev/imgui/imgui_impl_sdl.h"
 #include "dev/imgui/imgui_impl_sdlrenderer.h"
@@ -31,6 +31,15 @@ void Game::init(const char* title, int x, int y, int w, int h, bool fullscreen)
         {
             SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
             std::cout << "Renderer Created!" << std::endl;
+            
+            IMGUI_CHECKVERSION();
+            ImGui::CreateContext();
+            ImGuiIO& io = ImGui::GetIO(); (void)io;
+
+            ImGui::StyleColorsDark(); //ImGui::StyleColorsLight();
+
+            ImGui_ImplSDL2_InitForSDLRenderer(window, renderer);
+            ImGui_ImplSDLRenderer_Init(renderer);
         }
 
         isRunning = true;
@@ -39,11 +48,21 @@ void Game::init(const char* title, int x, int y, int w, int h, bool fullscreen)
     }
 }
 
+void Game::preRender()
+{
+    ImGui_ImplSDLRenderer_NewFrame();
+    ImGui_ImplSDL2_NewFrame();
+    ImGui::NewFrame();
+}
+
 void Game::handleEvents()
 {
     SDL_Event event;
     SDL_PollEvent(&event);
-    switch (event.type) {
+    ImGui_ImplSDL2_ProcessEvent(&event);
+
+    switch (event.type)
+    {
         case SDL_QUIT:
             isRunning = false;
             break;
@@ -53,11 +72,16 @@ void Game::handleEvents()
 }
 
 void Game::update()
-{}
+{
+    cnt++;
+    std::cout << cnt << std::endl;
+    ImGui::ShowDemoWindow();
+}
 
 void Game::render()
 {
     SDL_RenderClear(renderer);
+    ImGui::Render();
     ImGui_ImplSDLRenderer_RenderDrawData(ImGui::GetDrawData());
     SDL_RenderPresent(renderer);
 }
@@ -66,6 +90,7 @@ void Game::clean()
 {
     SDL_DestroyWindow(window);
     SDL_DestroyRenderer(renderer);
+
     SDL_Quit();
     std::cout << "Game Cleaned!" << std::endl;
 }

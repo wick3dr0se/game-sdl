@@ -1,4 +1,4 @@
-#include "Game.hpp"
+#include "Game.h"
 
 Game* game = nullptr;
 
@@ -8,7 +8,9 @@ int main()
 
 	game->init("Our new game!!", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, false);
 
-	while (game->running()) {
+	while (game->running())
+	{
+		game->preRender();
 		game->handleEvents();
 		game->update();
 		game->render();

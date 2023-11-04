@@ -24,7 +24,6 @@
       <Filter>dev\imgui</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="x" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="dev">
@@ -59,6 +58,6 @@
     <ClInclude Include="dev\imgui\imstb_truetype.h">
       <Filter>dev\imgui</Filter>
     </ClInclude>
-    <ClInclude Include="Game.hpp" />
+    <ClInclude Include="Game.h" />
   </ItemGroup>
 </Project>
