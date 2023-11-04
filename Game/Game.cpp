@@ -8,6 +8,8 @@
 GameObject* player;
 GameObject* enemy;
 
+SDL_Renderer* Game::renderer = nullptr;
+
 Game::Game()
 {}
 Game::~Game()
@@ -52,8 +54,8 @@ void Game::init(const char* title, int x, int y, int w, int h, bool fullscreen)
         isRunning = false;
     }
 
-    player = new GameObject("assets/player.bmp", renderer, 0, 0);
-    enemy = new GameObject("assets/enemy.bmp", renderer, 32, 32);
+    player = new GameObject("assets/player.bmp", 0, 0);
+    enemy = new GameObject("assets/enemy.bmp", 32, 32);
 }
 
 void Game::preRender()
