@@ -399,3 +399,4 @@ FodyWeavers.xsd
 
 # vcpkg
 vcpkg_installed/
+/Game/imgui.ini
