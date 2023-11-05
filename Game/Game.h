@@ -8,23 +8,23 @@
 
 class Game {
 public:
-	Game();
-	~Game();
+    Game();
+    ~Game();
 
-	void init(const char* title, int x, int y, int w, int h, bool fullscreen);
-	void preRender();
-	void handleEvents();
-	void update();
-	void render();
-	void clean();
+    void init(const char* title, int x, int y, int w, int h, bool fullscreen);
+    void preRender();
+    void handleEvents();
+    void update();
+    void render();
+    void clean();
 
-	bool running() { return isRunning; }
+    bool running() { return isRunning; }
 
-	static SDL_Renderer* renderer;
+    static SDL_Renderer* renderer;
 private:
-	int cnt = 0;
-	bool isRunning = false;
-	SDL_Window* window;
+    int cnt = 0;
+    bool isRunning = false;
+    SDL_Window* window;
 };
 
 #endif

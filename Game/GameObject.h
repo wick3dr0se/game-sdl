@@ -4,15 +4,15 @@
 
 class GameObject {
 public:
-	GameObject(const char* texsheet, int x, int y);
-	~GameObject();
+    GameObject(const char* texsheet, int x, int y);
+    ~GameObject();
 
-	void Update();
-	void Render();
+    void Update();
+    void Render();
 private:
-	int xpos;
-	int ypos;
+    int xpos;
+    int ypos;
 
-	SDL_Texture* objTexture;
-	SDL_Rect srcRect, destRect;
+    SDL_Texture* objTexture;
+    SDL_Rect srcRect, destRect;
 };
