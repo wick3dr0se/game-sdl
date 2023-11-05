@@ -1,12 +1,14 @@
 #include "Game.h"
 #include "TextureManager.h"
 #include "GameObject.h"
+#include "Map.h"
 #include "dev/imgui/imgui.h"
 #include "dev/imgui/imgui_impl_sdl.h"
 #include "dev/imgui/imgui_impl_sdlrenderer.h"
 
 GameObject* player;
 GameObject* enemy;
+Map* map;
 
 SDL_Renderer* Game::renderer = nullptr;
 
@@ -56,6 +58,7 @@ void Game::init(const char* title, int x, int y, int w, int h, bool fullscreen)
 
     player = new GameObject("assets/player.bmp", 0, 0);
     enemy = new GameObject("assets/enemy.bmp", 32, 32);
+    map = new Map();
 }
 
 void Game::preRender()
@@ -91,6 +94,7 @@ void Game::update()
 void Game::render()
 {
     SDL_RenderClear(renderer);
+    map->DrawMap();
     player->Render();
     enemy->Render();
     ImGui::Render();
