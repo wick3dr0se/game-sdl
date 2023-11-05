@@ -36,7 +36,7 @@ public:
     virtual void init() {}
     virtual void update() {}
     virtual void draw() {}
-    
+
     virtual ~Component() {}
 private:
 };
@@ -52,8 +52,8 @@ public:
     {
         for (auto& c : components) c->draw();
     }
-    bool isActive() const { return active;  }
-    void destroy() { active = false;  }
+    bool isActive() const { return active; }
+    void destroy() { active = false; }
 
     template <typename T> bool hasComponent() const
     {
@@ -83,7 +83,7 @@ public:
 private:
     bool active = true;
     std::vector<std::unique_ptr<Component>> components;
-    
+
     ComponentArray componentArray;
     ComponentBitSet componentBitSet;
 };
