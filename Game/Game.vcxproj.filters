@@ -23,6 +23,8 @@
     <ClCompile Include="dev\imgui\imgui_widgets.cpp">
       <Filter>dev\imgui</Filter>
     </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="dev">
@@ -57,5 +59,7 @@
     <ClInclude Include="dev\imgui\imstb_truetype.h">
       <Filter>dev\imgui</Filter>
     </ClInclude>
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="TextureManager.h" />
   </ItemGroup>
 </Project>
