@@ -2,6 +2,8 @@
 #include "TextureManager.h"
 #include "GameObject.h"
 #include "Map.h"
+#include "ECS.h"
+#include "Component.h"
 #include "dev/imgui/imgui.h"
 #include "dev/imgui/imgui_impl_sdl.h"
 #include "dev/imgui/imgui_impl_sdlrenderer.h"
@@ -11,6 +13,9 @@ GameObject* enemy;
 Map* map;
 
 SDL_Renderer* Game::renderer = nullptr;
+
+Manager manager;
+auto& newPlayer(manager.addEntity());
 
 Game::Game()
 {}
@@ -60,6 +65,9 @@ void Game::init(const char* title, int x, int y, int w, int h, bool fullscreen)
     player = new GameObject("assets/player.bmp", 0, 0);
     enemy = new GameObject("assets/enemy.bmp", 32, 32);
     map = new Map();
+
+    newPlayer.addComponent<PositionComponent>();
+    newPlayer.getComponent<PositionComponent>().setPos(500, 500);
 }
 
 void Game::preRender()
@@ -89,6 +97,9 @@ void Game::update()
 {
     player->Update();
     enemy->Update();
+    manager.update();
+    std::cout << newPlayer.getComponent<PositionComponent>().x() << "," <<
+        newPlayer.getComponent<PositionComponent>().y() << std::endl;
     //ImGui::ShowDemoWindow();
 }
 
