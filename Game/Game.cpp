@@ -89,7 +89,7 @@ void Game::update()
 {
     player->Update();
     enemy->Update();
-    ImGui::ShowDemoWindow();
+    //ImGui::ShowDemoWindow();
 }
 
 void Game::render()
