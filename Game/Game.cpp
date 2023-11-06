@@ -1,16 +1,18 @@
 #include "Game.h"
 #include "TextureManager.h"
-#include "GameObject.h"
 #include "Map.h"
+#include "Components.h"
 #include "dev/imgui/imgui.h"
 #include "dev/imgui/imgui_impl_sdl.h"
 #include "dev/imgui/imgui_impl_sdlrenderer.h"
 
-GameObject* player;
-GameObject* enemy;
 Map* map;
 
 SDL_Renderer* Game::renderer = nullptr;
+
+Manager manager;
+
+auto& player(manager.addEntity());
 
 Game::Game()
 {}
@@ -57,9 +59,10 @@ void Game::init(const char* title, int x, int y, int w, int h, bool fullscreen)
         isRunning = false;
     }
 
-    player = new GameObject("assets/player.bmp", 0, 0);
-    enemy = new GameObject("assets/enemy.bmp", 32, 32);
     map = new Map();
+
+    player.addComponent<PositionComponent>(100, 100);
+    player.addComponent<SpriteComponent>("assets/player.bmp");
 }
 
 void Game::preRender()
@@ -87,8 +90,14 @@ void Game::handleEvents()
 
 void Game::update()
 {
-    player->Update();
-    enemy->Update();
+    manager.refresh();
+    manager.update();
+
+    if (player.getComponent<PositionComponent>().x() > 250)
+    {
+        player.getComponent<SpriteComponent>().setTex("assets/enemy.bmp");
+    }
+
     //ImGui::ShowDemoWindow();
 }
 
@@ -96,8 +105,7 @@ void Game::render()
 {
     SDL_RenderClear(renderer);
     map->DrawMap();
-    player->Render();
-    enemy->Render();
+    manager.draw();
     ImGui::Render();
     ImGui_ImplSDLRenderer_RenderDrawData(ImGui::GetDrawData());
     SDL_RenderPresent(renderer);
