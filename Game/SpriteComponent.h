@@ -29,11 +29,13 @@ public:
         destRect.w = 32;
         destRect.h = 32;
     }
+
     void update() override
     {
         destRect.x = position->x();
         destRect.y = position->y();
     }
+
     void draw() override
     {
         TextureManager::Draw(texture, srcRect, destRect);

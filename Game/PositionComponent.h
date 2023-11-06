@@ -16,6 +16,7 @@ public:
         xpos = x;
         ypos = y;
     }
+
     void update() override
     {
         xpos++;
@@ -26,6 +27,7 @@ public:
     void x(int x) { xpos = x; }
     int y() { return ypos; }
     void y(int y) { ypos = y; }
+
     void setPos(int x, int y) { xpos = x; ypos = y; }
 private:
     int xpos;
