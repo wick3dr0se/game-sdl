@@ -1,16 +1,16 @@
 #include "Game.h"
 #include "TextureManager.h"
 #include "Map.h"
-#include "Components.h"
+#include "ECS/Components.h"
 #include "Vector2D.h"
-#include "dev/imgui/imgui.h"
-#include "dev/imgui/imgui_impl_sdl.h"
-#include "dev/imgui/imgui_impl_sdlrenderer.h"
-
-Map* map;
+#include "../dev/imgui/imgui.h"
+#include "../dev/imgui/imgui_impl_sdl.h"
+#include "../dev/imgui/imgui_impl_sdlrenderer.h"
 
 SDL_Renderer* Game::renderer = nullptr;
+SDL_Event Game::event;
 
+Map* map;
 Manager manager;
 
 auto& player(manager.addEntity());
@@ -64,6 +64,7 @@ void Game::init(const char* title, int x, int y, int w, int h, bool fullscreen)
 
     player.addComponent<TransformComponent>();
     player.addComponent<SpriteComponent>("assets/player.bmp");
+    player.addComponent<KeyboardController>();
 }
 
 void Game::preRender()
@@ -75,7 +76,6 @@ void Game::preRender()
 
 void Game::handleEvents()
 {
-    SDL_Event event;
     SDL_PollEvent(&event);
     ImGui_ImplSDL2_ProcessEvent(&event);
 
@@ -93,13 +93,6 @@ void Game::update()
 {
     manager.refresh();
     manager.update();
-
-    player.getComponent<TransformComponent>().position.Add(Vector2D(5, 0));
-
-    if (player.getComponent<TransformComponent>().position.x > 250)
-    {
-        player.getComponent<SpriteComponent>().setTex("assets/enemy.bmp");
-    }
 
     //ImGui::ShowDemoWindow();
 }

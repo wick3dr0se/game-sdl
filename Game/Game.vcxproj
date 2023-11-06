@@ -148,15 +148,15 @@
     <ClCompile Include="dev\imgui\imgui_impl_sdlrenderer.cpp" />
     <ClCompile Include="dev\imgui\imgui_tables.cpp" />
     <ClCompile Include="dev\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\GameObject.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Map.cpp" />
-    <ClCompile Include="TextureManager.cpp" />
-    <ClCompile Include="Vector2D.cpp" />
+    <ClCompile Include="src\Map.cpp" />
+    <ClCompile Include="src\TextureManager.cpp" />
+    <ClCompile Include="src\Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Components.h" />
+    <ClInclude Include="src\ECS\Components.h" />
     <ClInclude Include="dev\imgui\imconfig.h" />
     <ClInclude Include="dev\imgui\imgui.h" />
     <ClInclude Include="dev\imgui\imgui_impl_sdl.h" />
@@ -165,14 +165,15 @@
     <ClInclude Include="dev\imgui\imstb_rectpack.h" />
     <ClInclude Include="dev\imgui\imstb_textedit.h" />
     <ClInclude Include="dev\imgui\imstb_truetype.h" />
-    <ClInclude Include="ECS.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="GameObject.h" />
-    <ClInclude Include="Map.h" />
-    <ClInclude Include="TransformComponent.h" />
-    <ClInclude Include="SpriteComponent.h" />
-    <ClInclude Include="TextureManager.h" />
-    <ClInclude Include="Vector2D.h" />
+    <ClInclude Include="src\ECS\ECS.h" />
+    <ClInclude Include="src\ECS\KeyboardController.h" />
+    <ClInclude Include="src\Game.h" />
+    <ClInclude Include="src\GameObject.h" />
+    <ClInclude Include="src\Map.h" />
+    <ClInclude Include="src\ECS\TransformComponent.h" />
+    <ClInclude Include="src\ECS\SpriteComponent.h" />
+    <ClInclude Include="src\TextureManager.h" />
+    <ClInclude Include="src\Vector2D.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
