@@ -2,6 +2,7 @@
 #include "TextureManager.h"
 #include "Map.h"
 #include "Components.h"
+#include "Vector2D.h"
 #include "dev/imgui/imgui.h"
 #include "dev/imgui/imgui_impl_sdl.h"
 #include "dev/imgui/imgui_impl_sdlrenderer.h"
@@ -61,7 +62,7 @@ void Game::init(const char* title, int x, int y, int w, int h, bool fullscreen)
 
     map = new Map();
 
-    player.addComponent<PositionComponent>(100, 100);
+    player.addComponent<TransformComponent>();
     player.addComponent<SpriteComponent>("assets/player.bmp");
 }
 
@@ -93,7 +94,9 @@ void Game::update()
     manager.refresh();
     manager.update();
 
-    if (player.getComponent<PositionComponent>().x() > 250)
+    player.getComponent<TransformComponent>().position.Add(Vector2D(5, 0));
+
+    if (player.getComponent<TransformComponent>().position.x > 250)
     {
         player.getComponent<SpriteComponent>().setTex("assets/enemy.bmp");
     }
