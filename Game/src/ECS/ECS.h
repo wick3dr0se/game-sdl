@@ -48,16 +48,18 @@ public:
     {
         for (auto& c : components) c->update();
     }
+
     void draw()
     {
         for (auto& c : components) c->draw();
     }
+
     bool isActive() const { return active; }
     void destroy() { active = false; }
 
     template <typename T> bool hasComponent() const
     {
-        return componentBitSet[getComponentTypeID<T>];
+        return componentBitSet[getComponentTypeID<T>()];
     }
 
     template <typename T, typename... TArgs>
@@ -95,10 +97,12 @@ public:
     {
         for (auto& e : entities) e->update();
     }
+
     void draw()
     {
         for (auto& e : entities) e->draw();
     }
+
     void refresh()
     {
         entities.erase(std::remove_if(std::begin(entities), std::end(entities),

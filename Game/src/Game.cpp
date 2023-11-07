@@ -1,22 +1,25 @@
 #include "Game.h"
 #include "TextureManager.h"
 #include "Map.h"
-#include "Components.h"
+#include "ECS/Components.h"
 #include "Vector2D.h"
-#include "dev/imgui/imgui.h"
-#include "dev/imgui/imgui_impl_sdl.h"
-#include "dev/imgui/imgui_impl_sdlrenderer.h"
-
-Map* map;
+#include "Collision.h"
+#include "../dev/imgui/imgui.h"
+#include "../dev/imgui/imgui_impl_sdl.h"
+#include "../dev/imgui/imgui_impl_sdlrenderer.h"
 
 SDL_Renderer* Game::renderer = nullptr;
+SDL_Event Game::event;
 
+Map* map;
 Manager manager;
 
 auto& player(manager.addEntity());
+auto& wall(manager.addEntity());
 
 Game::Game()
 {}
+
 Game::~Game()
 {}
 
@@ -64,6 +67,12 @@ void Game::init(const char* title, int x, int y, int w, int h, bool fullscreen)
 
     player.addComponent<TransformComponent>();
     player.addComponent<SpriteComponent>("assets/player.bmp");
+    player.addComponent<KeyboardController>();
+    player.addComponent<ColliderComponent>("player");
+
+    wall.addComponent<TransformComponent>(150.0f, 200.0f, 100, 50, 1);
+    wall.addComponent<SpriteComponent>("assets/water.bmp");
+    wall.addComponent<ColliderComponent>("wall");
 }
 
 void Game::preRender()
@@ -75,7 +84,6 @@ void Game::preRender()
 
 void Game::handleEvents()
 {
-    SDL_Event event;
     SDL_PollEvent(&event);
     ImGui_ImplSDL2_ProcessEvent(&event);
 
@@ -91,14 +99,15 @@ void Game::handleEvents()
 
 void Game::update()
 {
+    Vector2D playerPos = player.getComponent<TransformComponent>().position;
+
     manager.refresh();
     manager.update();
 
-    player.getComponent<TransformComponent>().position.Add(Vector2D(5, 0));
-
-    if (player.getComponent<TransformComponent>().position.x > 250)
+    if (Collision::AABB(player.getComponent<ColliderComponent>().collider, wall.getComponent<ColliderComponent>().collider))
     {
-        player.getComponent<SpriteComponent>().setTex("assets/enemy.bmp");
+        player.getComponent<TransformComponent>().position = playerPos;
+        std::cout << "Collision!" << std::endl;
     }
 
     //ImGui::ShowDemoWindow();
