@@ -19,6 +19,14 @@ Manager manager;
 auto& player(manager.addEntity());
 auto& wall(manager.addEntity());
 
+enum groupLabels : std::size_t
+{
+    groupMap,
+    groupPlayers,
+    groupEnemies,
+    groupColliders
+};
+
 Game::Game()
 {}
 
@@ -73,10 +81,12 @@ void Game::init(const char* title, int x, int y, int w, int h, bool fullscreen)
     player.addComponent<SpriteComponent>("assets/player.bmp");
     player.addComponent<KeyboardController>();
     player.addComponent<ColliderComponent>("player");
+    player.addGroup(groupPlayers);
 
     wall.addComponent<TransformComponent>(150.0f, 200.0f, 100, 50, 1);
     wall.addComponent<SpriteComponent>("assets/water.bmp");
     wall.addComponent<ColliderComponent>("wall");
+    wall.addGroup(groupMap);
 }
 
 void Game::preRender()
@@ -116,10 +126,18 @@ void Game::update()
     //ImGui::ShowDemoWindow();
 }
 
+auto& tiles(manager.getGroup(groupMap));
+auto& players(manager.getGroup(groupPlayers));
+auto& enemies(manager.getGroup(groupEnemies));
+
 void Game::render()
 {
     SDL_RenderClear(renderer);
-    manager.draw();
+    
+    for (auto& t : tiles) { t->draw(); }
+    for (auto& p : players) { p->draw(); }
+    for (auto& e : enemies) { e->draw(); }
+
     ImGui::Render();
     ImGui_ImplSDLRenderer_RenderDrawData(ImGui::GetDrawData());
     SDL_RenderPresent(renderer);
@@ -138,4 +156,5 @@ void Game::AddTile(int id, int x, int y)
 {
     auto& tile(manager.addEntity());
     tile.addComponent<TileComponent>(x, y, 32, 32, id);
+    tile.addGroup(groupMap);
 }
