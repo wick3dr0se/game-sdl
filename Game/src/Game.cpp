@@ -8,13 +8,17 @@
 #include "../dev/imgui/imgui_impl_sdl.h"
 #include "../dev/imgui/imgui_impl_sdlrenderer.h"
 
+Map* map;
+Manager manager;
+
 SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
 
+SDL_Rect Game::camera = { 0,0,800,640 };
+
 std::vector<ColliderComponent*> Game::colliders;
 
-Map* map;
-Manager manager;
+bool Game::isRunning = false;
 
 auto& player(manager.addEntity());
 auto& wall(manager.addEntity());
@@ -28,6 +32,10 @@ enum groupLabels : std::size_t
     groupEnemies,
     groupColliders
 };
+
+auto& tiles(manager.getGroup(groupMap));
+auto& players(manager.getGroup(groupPlayers));
+auto& enemies(manager.getGroup(groupEnemies));
 
 Game::Game()
 {}
@@ -115,17 +123,16 @@ void Game::update()
     manager.refresh();
     manager.update();
 
-    for (auto cc : colliders)
-    {
-        Collision::AABB(player.getComponent<ColliderComponent>(), *cc);
-    }
+    camera.x = player.getComponent<TransformComponent>().position.x - 400;
+    camera.y = player.getComponent<TransformComponent>().position.y - 320;
+
+    if (camera.x < 0) { camera.x = 0; }
+    if (camera.y < 0) { camera.y = 0; }
+    if (camera.x > camera.w) { camera.x = camera.w; }
+    if (camera.y > camera.h) { camera.y = camera.h; }
 
     //ImGui::ShowDemoWindow();
 }
-
-auto& tiles(manager.getGroup(groupMap));
-auto& players(manager.getGroup(groupPlayers));
-auto& enemies(manager.getGroup(groupEnemies));
 
 void Game::render()
 {
