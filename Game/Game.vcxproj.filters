@@ -29,6 +29,7 @@
     <ClCompile Include="src\Map.cpp" />
     <ClCompile Include="src\Vector2D.cpp" />
     <ClCompile Include="src\Collision.cpp" />
+    <ClCompile Include="src\ECS\ECS.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="dev">
@@ -75,5 +76,7 @@
     <ClInclude Include="src\ECS\KeyboardController.h" />
     <ClInclude Include="src\ECS\ColliderComponent.h" />
     <ClInclude Include="src\Collision.h" />
+    <ClInclude Include="src\ECS\TileComponent.h" />
+    <ClInclude Include="src\ECS\Animation.h" />
   </ItemGroup>
 </Project>

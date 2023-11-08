@@ -2,14 +2,15 @@
 
 SDL_Texture* TextureManager::LoadTexture(const char* texture)
 {
-    SDL_Surface* tmpSurface = SDL_LoadBMP(texture);
+    SDL_Surface* tmpSurface = IMG_Load(texture);
+    //SDL_LoadImage()
     SDL_Texture* tex = SDL_CreateTextureFromSurface(Game::renderer, tmpSurface);
     SDL_FreeSurface(tmpSurface);
 
     return tex;
 }
 
-void TextureManager::Draw(SDL_Texture* tex, SDL_Rect src, SDL_Rect dest)
+void TextureManager::Draw(SDL_Texture* tex, SDL_Rect src, SDL_Rect dest, SDL_RendererFlip flip)
 {
-    SDL_RenderCopy(Game::renderer, tex, &src, &dest);
+    SDL_RenderCopyEx(Game::renderer, tex, &src, &dest, NULL, NULL, flip);
 }
