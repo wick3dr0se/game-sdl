@@ -4,6 +4,7 @@
 
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_image.h"
+#include "AssetManager.h"
 #include <iostream>
 #include <vector>
 
@@ -28,6 +29,7 @@ public:
     static SDL_Event event;
     static bool isRunning;
     static SDL_Rect camera;
+    static AssetManager* assets;
 
     enum groupLabels : std::size_t
     {

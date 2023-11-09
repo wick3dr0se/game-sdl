@@ -16,6 +16,8 @@ SDL_Event Game::event;
 
 SDL_Rect Game::camera = { 0,0,800,640 };
 
+AssetManager* Game::assets = new AssetManager(&manager);
+
 bool Game::isRunning = false;
 
 auto& player(manager.addEntity());
@@ -66,12 +68,15 @@ void Game::init(const char* title, int x, int y, int w, int h, bool fullscreen)
         isRunning = false;
     }
 
-    map = new Map("assets/terrain_ss.png", 3, 32);
+    assets->AddTexture("terrain", "assets/terrain_ss.png");
+    assets->AddTexture("player", "assets/player_anims.png");
+
+    map = new Map("terrain", 3, 32);
 
     map->LoadMap("assets/map.map", 25, 20);
 
     player.addComponent<TransformComponent>(640, 600, 32, 32, 3);
-    player.addComponent<SpriteComponent>("assets/player_anims.png", true);
+    player.addComponent<SpriteComponent>("player", true);
     player.addComponent<KeyboardController>();
     player.addComponent<ColliderComponent>("player");
     player.addGroup(groupPlayers);
