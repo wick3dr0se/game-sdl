@@ -180,6 +180,7 @@
     <ClInclude Include="src\Map.h" />
     <ClInclude Include="src\ECS\TransformComponent.h" />
     <ClInclude Include="src\ECS\SpriteComponent.h" />
+    <ClInclude Include="src\ECS\ProjectileComponent.h" />
     <ClInclude Include="src\TextureManager.h" />
     <ClInclude Include="src\Vector2D.h" />
   </ItemGroup>

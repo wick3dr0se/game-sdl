@@ -4,10 +4,10 @@
 
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_image.h"
-#include "AssetManager.h"
 #include <iostream>
 #include <vector>
 
+class AssetManager;
 class ColliderComponent;
 
 class Game
@@ -36,7 +36,8 @@ public:
     {
         groupMap,
         groupPlayers,
-        groupColliders
+        groupColliders,
+        groupProjectiles
     };
 private:
     int cnt = 0;
