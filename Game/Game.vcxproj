@@ -175,6 +175,7 @@
     <ClInclude Include="src\ECS\ECS.h" />
     <ClInclude Include="src\ECS\KeyboardController.h" />
     <ClInclude Include="src\ECS\TileComponent.h" />
+    <ClInclude Include="src\ECS\UILabel.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\GameObject.h" />
     <ClInclude Include="src\Map.h" />

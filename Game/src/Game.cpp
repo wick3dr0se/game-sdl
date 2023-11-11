@@ -5,6 +5,7 @@
 #include "Vector2D.h"
 #include "Collision.h"
 #include "AssetManager.h"
+#include <sstream>
 #include "../dev/imgui/imgui.h"
 #include "../dev/imgui/imgui_impl_sdl.h"
 #include "../dev/imgui/imgui_impl_sdlrenderer.h"
@@ -22,6 +23,7 @@ AssetManager* Game::assets = new AssetManager(&manager);
 bool Game::isRunning = false;
 
 auto& player(manager.addEntity());
+auto& label(manager.addEntity());
 
 Game::Game()
 {}
@@ -69,9 +71,16 @@ void Game::init(const char* title, int x, int y, int w, int h, bool fullscreen)
         isRunning = false;
     }
 
+    if (TTF_Init() == -1)
+    {
+        std::cout << "Error: SDL_TTF" << SDL_GetError() << std::endl;
+    }
+
     assets->AddTexture("terrain", "assets/terrain_ss.png");
     assets->AddTexture("player", "assets/player_anims.png");
     assets->AddTexture("projectile", "assets/pot_leaf.png");
+
+    assets->AddFont("arial", "assets/arial.ttf", 16);
 
     map = new Map("terrain", 3, 32);
 
@@ -82,6 +91,9 @@ void Game::init(const char* title, int x, int y, int w, int h, bool fullscreen)
     player.addComponent<KeyboardController>();
     player.addComponent<ColliderComponent>("player");
     player.addGroup(groupPlayers);
+
+    SDL_Color white = { 255, 255, 255, 255 };
+    label.addComponent<UILabel>(10, 10, "test", "arial", white);
 
     assets->CreateProjectile(Vector2D(540, 600), Vector2D(2, 0), 200, 2, "projectile");
     assets->CreateProjectile(Vector2D(540, 620), Vector2D(2, 1), 200, 2, "projectile");
@@ -121,6 +133,10 @@ void Game::update()
 {
     SDL_Rect playerCol = player.getComponent<ColliderComponent>().collider;
     Vector2D playerPos = player.getComponent<TransformComponent>().position;
+
+    std::stringstream ss;
+    ss << "Player position: " << playerPos;
+    label.getComponent<UILabel>().SetLabelText(ss.str(), "arial");
 
     manager.refresh();
     manager.update();
@@ -162,6 +178,8 @@ void Game::render()
     for (auto& c : colliders) { c->draw(); }
     for (auto& p : players) { p->draw(); }
     for (auto& p : projectiles) { p->draw(); }
+
+    label.draw();
 
     ImGui::Render();
     ImGui_ImplSDLRenderer_RenderDrawData(ImGui::GetDrawData());
