@@ -24,7 +24,4 @@ private:
     Manager* manager;
     std::map<std::string, SDL_Texture*> textures;
     std::map<std::string, TTF_Font*> fonts;
-private:
-    Manager* manager;
-    std::map<std::string, SDL_Texture*> textures;
 };

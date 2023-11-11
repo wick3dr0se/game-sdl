@@ -21,8 +21,8 @@ void GameObject::Update()
 
     destRect.x = xpos;
     destRect.y = ypos;
-    destRect.w = srcRect.w;
-    destRect.h = srcRect.h;
+    destRect.w = 32;
+    destRect.h = 32;
 }
 
 void GameObject::Render()

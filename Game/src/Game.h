@@ -29,7 +29,6 @@ public:
     static SDL_Event event;
     static bool isRunning;
     static SDL_Rect camera;
-
     static AssetManager* assets;
 
     enum groupLabels : std::size_t

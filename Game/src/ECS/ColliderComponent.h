@@ -40,10 +40,8 @@ public:
         transform = &entity->getComponent<TransformComponent>();
 
         tex = TextureManager::LoadTexture("assets/colTex.png");
-        srcRect = { 0,0,32,32 };
+        srcRect = { 0, 0, 32, 32 };
         destRect = { collider.x, collider.y, collider.w, collider.h };
-
-        
     }
 
     void update() override

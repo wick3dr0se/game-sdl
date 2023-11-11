@@ -11,7 +11,7 @@ int main()
     int frameTime;
 
     game = new Game();
-    game->init("Our new game!!", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 640, false);
+    game->init("Our new game!!", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, NULL, NULL, true);
 
     while (game->running())
     {
