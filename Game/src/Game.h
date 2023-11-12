@@ -8,6 +8,7 @@
 #include <vector>
 
 class AssetManager;
+class NetworkManager;
 class ColliderComponent;
 
 class Game
@@ -16,7 +17,7 @@ public:
     Game();
     ~Game();
 
-    void init(const char* title, int x, int y, int w, int h, bool fullscreen);
+    void init(const char* title, int x, int y, int w, int h, bool fullscreen, bool online);
     void preRender();
     void handleEvents();
     void update();
@@ -30,6 +31,7 @@ public:
     static bool isRunning;
     static SDL_Rect camera;
     static AssetManager* assets;
+    static NetworkManager* network;
 
     enum groupLabels : std::size_t
     {

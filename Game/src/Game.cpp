@@ -5,6 +5,7 @@
 #include "Vector2D.h"
 #include "Collision.h"
 #include "AssetManager.h"
+#include "Network/NetworkManager.h"
 #include <sstream>
 #include "../dev/imgui/imgui.h"
 #include "../dev/imgui/imgui_impl_sdl.h"
@@ -20,6 +21,9 @@ SDL_Rect Game::camera = { 0,0,800,640 };
 
 AssetManager* Game::assets = new AssetManager(&manager);
 
+boost::asio::io_service io_service_;
+NetworkManager* Game::network = nullptr;
+
 bool Game::isRunning = false;
 
 auto& player(manager.addEntity());
@@ -31,8 +35,11 @@ Game::Game()
 Game::~Game()
 {}
 
-void Game::init(const char* title, int x, int y, int w, int h, bool fullscreen)
+void Game::init(const char* title, int x, int y, int w, int h, bool fullscreen, bool online)
 {
+    auto const serverIp = "127.0.0.1";
+    auto const serverPort = 9949;
+
     int flags = 0;
     if (fullscreen)
     {
@@ -63,6 +70,12 @@ void Game::init(const char* title, int x, int y, int w, int h, bool fullscreen)
 
             ImGui_ImplSDL2_InitForSDLRenderer(window, renderer);
             ImGui_ImplSDLRenderer_Init(renderer);
+        }
+
+        if (online)
+        {
+            network = new NetworkManager(io_service_, serverIp, serverPort);
+            std::cout << "Connected to server!" << std::endl;
         }
 
         isRunning = true;
@@ -100,6 +113,7 @@ void Game::init(const char* title, int x, int y, int w, int h, bool fullscreen)
     assets->CreateProjectile(Vector2D(540, 630), Vector2D(2, 2), 200, 2, "projectile");
     assets->CreateProjectile(Vector2D(540, 640), Vector2D(2, -1), 200, 2, "projectile");
     assets->CreateProjectile(Vector2D(540, 650), Vector2D(2, -2), 200, 2, "projectile");
+
 }
 
 void Game::preRender()
