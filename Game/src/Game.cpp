@@ -21,7 +21,7 @@ SDL_Rect Game::camera = { 0,0,800,640 };
 
 AssetManager* Game::assets = new AssetManager(&manager);
 
-boost::asio::io_service io_service_;
+boost::asio::io_service m_io_service;
 NetworkManager* Game::network = nullptr;
 
 bool Game::isRunning = false;
@@ -38,7 +38,7 @@ Game::~Game()
 void Game::init(const char* title, int x, int y, int w, int h, bool fullscreen, bool online)
 {
     auto const serverIp = "127.0.0.1";
-    auto const serverPort = 9949;
+    auto const serverPort = "9949";
 
     int flags = 0;
     if (fullscreen)
@@ -72,12 +72,6 @@ void Game::init(const char* title, int x, int y, int w, int h, bool fullscreen, 
             ImGui_ImplSDLRenderer_Init(renderer);
         }
 
-        if (online)
-        {
-            network = new NetworkManager(io_service_, serverIp, serverPort);
-            std::cout << "Connected to server!" << std::endl;
-        }
-
         isRunning = true;
     }
     else {
@@ -88,6 +82,14 @@ void Game::init(const char* title, int x, int y, int w, int h, bool fullscreen, 
     {
         std::cout << "Error: SDL_TTF" << SDL_GetError() << std::endl;
     }
+
+    if (online)
+    {
+        std::cout << "Initialized network." << std::endl;
+        network = new NetworkManager(m_io_service, serverIp, serverPort);
+        network->connect();
+    }
+
 
     assets->AddTexture("terrain", "assets/terrain_ss.png");
     assets->AddTexture("player", "assets/player_anims.png");
@@ -103,6 +105,7 @@ void Game::init(const char* title, int x, int y, int w, int h, bool fullscreen, 
     player.addComponent<SpriteComponent>("player", true);
     player.addComponent<KeyboardController>();
     player.addComponent<ColliderComponent>("player");
+    player.addComponent<NetworkComponent>("player", "player", network);
     player.addGroup(groupPlayers);
 
     SDL_Color white = { 255, 255, 255, 255 };

@@ -84,5 +84,6 @@
     <ClInclude Include="src\ECS\UILabel.h" />
     <ClInclude Include="src\Network\TCPClient.h" />
     <ClInclude Include="src\Network\NetworkManager.h" />
+    <ClInclude Include="src\ECS\NetworkComponent.h" />
   </ItemGroup>
 </Project>

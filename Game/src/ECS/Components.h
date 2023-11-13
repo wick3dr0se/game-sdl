@@ -9,3 +9,4 @@
 #include "ProjectileComponent.h"
 #include "UILabel.h"
 #include "ProjectileComponent.h"
+#include "NetworkComponent.h"
