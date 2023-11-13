@@ -35,6 +35,7 @@ public:
     {
         groupMap,
         groupPlayers,
+        groupEnemies,
         groupColliders,
         groupProjectiles
     };
