@@ -39,6 +39,9 @@ public:
                 transform->velocity.y = 1;
                 sprite->Play("walk");
                 break;
+            case SDLK_SPACE:
+                Game::assets->CreateProjectile(transform->position, Vector2D(2, 0), 3, 2);
+                break;
             default:
                 break;
             }
@@ -67,6 +70,7 @@ public:
                 break;
             case SDLK_ESCAPE:
                 Game::isRunning = false;
+                break;
             default:
                 break;
             }

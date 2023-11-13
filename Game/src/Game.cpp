@@ -23,7 +23,14 @@ AssetManager* Game::assets = new AssetManager(&manager);
 bool Game::isRunning = false;
 
 auto& player(manager.addEntity());
+auto& enemy(manager.addEntity());
 auto& label(manager.addEntity());
+
+auto& tiles(manager.getGroup(Game::groupMap));
+auto& colliders(manager.getGroup(Game::groupColliders));
+auto& players(manager.getGroup(Game::groupPlayers));
+auto& enemies(manager.getGroup(Game::groupEnemies));
+auto& projectiles(manager.getGroup(Game::groupProjectiles));
 
 Game::Game()
 {}
@@ -78,6 +85,7 @@ void Game::init(const char* title, int x, int y, int w, int h, bool fullscreen)
 
     assets->AddTexture("terrain", "assets/terrain_ss.png");
     assets->AddTexture("player", "assets/player_anims.png");
+    assets->AddTexture("enemy", "assets/enemy_anims.png");
     assets->AddTexture("projectile", "assets/pot_leaf.png");
 
     assets->AddFont("arial", "assets/arial.ttf", 16);
@@ -92,14 +100,13 @@ void Game::init(const char* title, int x, int y, int w, int h, bool fullscreen)
     player.addComponent<ColliderComponent>("player");
     player.addGroup(groupPlayers);
 
+    enemy.addComponent<TransformComponent>(720, 680, 32, 32, 3);
+    enemy.addComponent<SpriteComponent>("enemy", true);
+    enemy.addComponent<ColliderComponent>("enemy");
+    enemy.addGroup(groupEnemies);
+
     SDL_Color white = { 255, 255, 255, 255 };
     label.addComponent<UILabel>(10, 10, "test", "arial", white);
-
-    assets->CreateProjectile(Vector2D(540, 600), Vector2D(2, 0), 200, 2, "projectile");
-    assets->CreateProjectile(Vector2D(540, 620), Vector2D(2, 1), 200, 2, "projectile");
-    assets->CreateProjectile(Vector2D(540, 630), Vector2D(2, 2), 200, 2, "projectile");
-    assets->CreateProjectile(Vector2D(540, 640), Vector2D(2, -1), 200, 2, "projectile");
-    assets->CreateProjectile(Vector2D(540, 650), Vector2D(2, -2), 200, 2, "projectile");
 }
 
 void Game::preRender()
@@ -108,11 +115,6 @@ void Game::preRender()
     ImGui_ImplSDL2_NewFrame();
     ImGui::NewFrame();
 }
-
-auto& tiles(manager.getGroup(Game::groupMap));
-auto& colliders(manager.getGroup(Game::groupColliders));
-auto& players(manager.getGroup(Game::groupPlayers));
-auto& projectiles(manager.getGroup(Game::groupProjectiles));
 
 void Game::handleEvents()
 {
@@ -131,7 +133,7 @@ void Game::handleEvents()
 
 void Game::update()
 {
-    SDL_Rect playerCol = player.getComponent<ColliderComponent>().collider;
+    ColliderComponent playerCol = player.getComponent<ColliderComponent>();
     Vector2D playerPos = player.getComponent<TransformComponent>().position;
 
     std::stringstream ss;
@@ -143,7 +145,8 @@ void Game::update()
 
     for (auto& c : colliders)
     {
-        SDL_Rect cCol = c->getComponent<ColliderComponent>().collider;
+        ColliderComponent cCol = c->getComponent<ColliderComponent>();
+
         if (Collision::AABB(cCol, playerCol))
         {
             player.getComponent<TransformComponent>().position = playerPos;
@@ -152,15 +155,23 @@ void Game::update()
 
     for (auto& p : projectiles)
     {
-        if (Collision::AABB(player.getComponent<ColliderComponent>().collider, p->getComponent<ColliderComponent>().collider))
+        ColliderComponent projCol = p->getComponent<ColliderComponent>();
+
+        for (auto& e : enemies)
         {
-            std::cout << "Player hit!" << std::endl;
-            p->destroy();
+            ColliderComponent enemyCol = e->getComponent<ColliderComponent>();
+
+            if (Collision::AABB(projCol, enemyCol))
+            {
+                std::cout << "Enemy hit!" << std::endl;
+                e->destroy();
+                p->destroy();
+            }
         }
     }
 
-    camera.x = player.getComponent<TransformComponent>().position.x - 400;
-    camera.y = player.getComponent<TransformComponent>().position.y - 320;
+    camera.x = playerPos.x - 400;
+    camera.y = playerPos.y - 320;
 
     if (camera.x < 0) { camera.x = 0; }
     if (camera.y < 0) { camera.y = 0; }
@@ -177,6 +188,7 @@ void Game::render()
     for (auto& t : tiles) { t->draw(); }
     for (auto& c : colliders) { c->draw(); }
     for (auto& p : players) { p->draw(); }
+    for (auto& e : enemies) { e->draw(); }
     for (auto& p : projectiles) { p->draw(); }
 
     label.draw();
