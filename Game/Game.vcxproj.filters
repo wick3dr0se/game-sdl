@@ -82,5 +82,6 @@
     <ClInclude Include="src\AssetManager.h" />
     <ClInclude Include="src\ECS\ProjectileComponent.h" />
     <ClInclude Include="src\ECS\UILabel.h" />
+    <ClInclude Include="src\ECS\AIController.h" />
   </ItemGroup>
 </Project>

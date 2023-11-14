@@ -4,6 +4,7 @@
 #include "TransformComponent.h"
 #include "SpriteComponent.h"
 #include "KeyboardController.h"
+#include "AIController.h"
 #include "ColliderComponent.h"
 #include "TileComponent.h"
 #include "ProjectileComponent.h"

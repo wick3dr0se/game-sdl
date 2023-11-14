@@ -84,28 +84,27 @@ void Game::init(const char* title, int x, int y, int w, int h, bool fullscreen)
     }
 
     assets->AddTexture("terrain", "assets/terrain_ss.png");
-    assets->AddTexture("player", "assets/player_anims.png");
-    assets->AddTexture("enemy", "assets/enemy_anims.png");
-    assets->AddTexture("projectile", "assets/pot_leaf.png");
-
-    assets->AddFont("arial", "assets/arial.ttf", 16);
-
     map = new Map("terrain", 3, 32);
-
     map->LoadMap("assets/map.map", 25, 20);
 
+    assets->AddTexture("player", "assets/player_anims.png");
     player.addComponent<TransformComponent>(640, 680, 32, 32, 3);
     player.addComponent<SpriteComponent>("player", true);
     player.addComponent<KeyboardController>();
     player.addComponent<ColliderComponent>("player");
     player.addGroup(groupPlayers);
 
+    assets->AddTexture("enemy", "assets/enemy_anims.png");
     enemy.addComponent<TransformComponent>(720, 680, 32, 32, 3);
     enemy.addComponent<SpriteComponent>("enemy", true);
+    enemy.addComponent<AIController>();
     enemy.addComponent<ColliderComponent>("enemy");
     enemy.addGroup(groupEnemies);
 
+    assets->AddTexture("projectile", "assets/pot_leaf.png");
+
     SDL_Color white = { 255, 255, 255, 255 };
+    assets->AddFont("arial", "assets/arial.ttf", 16);
     label.addComponent<UILabel>(10, 10, "test", "arial", white);
 }
 
@@ -134,7 +133,9 @@ void Game::handleEvents()
 void Game::update()
 {
     ColliderComponent playerCol = player.getComponent<ColliderComponent>();
+    ColliderComponent enemyCol = enemy.getComponent<ColliderComponent>();
     Vector2D playerPos = player.getComponent<TransformComponent>().position;
+    Vector2D enemyPos = enemy.getComponent<TransformComponent>().position;
 
     std::stringstream ss;
     ss << "Player position: " << playerPos;
@@ -150,6 +151,11 @@ void Game::update()
         if (Collision::AABB(cCol, playerCol))
         {
             player.getComponent<TransformComponent>().position = playerPos;
+        }
+
+        if (Collision::AABB(cCol, enemyCol))
+        {
+            enemy.getComponent<TransformComponent>().position = enemyPos;
         }
     }
 
@@ -170,8 +176,8 @@ void Game::update()
         }
     }
 
-    camera.x = playerPos.x - 400;
-    camera.y = playerPos.y - 320;
+    camera.x = static_cast<int>(playerPos.x - 400);
+    camera.y = static_cast<int>(playerPos.y - 320);
 
     if (camera.x < 0) { camera.x = 0; }
     if (camera.y < 0) { camera.y = 0; }

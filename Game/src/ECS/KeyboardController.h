@@ -24,7 +24,7 @@ public:
             {
             case SDLK_w:
                 transform->velocity.y = -1;
-                sprite->Play("walk");
+                sprite->Play("idle");
                 break;
             case SDLK_a:
                 transform->velocity.x = -1;
@@ -37,7 +37,7 @@ public:
                 break;
             case SDLK_s:
                 transform->velocity.y = 1;
-                sprite->Play("walk");
+                sprite->Play("idle");
                 break;
             case SDLK_SPACE:
                 Game::assets->CreateProjectile(transform->position, Vector2D(2, 0), 3, 2);
