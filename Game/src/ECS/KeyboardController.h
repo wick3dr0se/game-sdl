@@ -51,22 +51,6 @@ public:
             }
         }
 
-        if (Game::event.type == SDL_KEYUP)
-        {
-            switch (Game::event.key.keysym.sym)
-            {
-            case SDLK_w:
-            case SDLK_a:
-            case SDLK_d:
-            case SDLK_s:
-                transform->velocity = { 0, 0 };
-                sprite->Play("idle");
-                break;
-            default:
-                break;
-            }
-        }
-
         if (std::abs(transform->position.x - lastPos.x) >= transform->scale * 32 ||
             std::abs(transform->position.y - lastPos.y) >= transform->scale * 32)
         {
