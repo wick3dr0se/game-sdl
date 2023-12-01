@@ -16,7 +16,7 @@ Manager manager;
 SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
 
-SDL_Rect Game::camera = { 0,0,800,640 };
+SDL_Rect Game::camera = { 0, 0, 800, 640 };
 
 AssetManager* Game::assets = new AssetManager(&manager);
 
@@ -83,7 +83,7 @@ void Game::init(const char* title, int x, int y, int w, int h, bool fullscreen)
         std::cout << "Error: SDL_TTF" << SDL_GetError() << std::endl;
     }
 
-    assets->AddTexture("terrain", "assets/terrain_ss.png");
+    assets->AddTexture("terrain", "assets/tileset.png");
     assets->AddTexture("player", "assets/player_anims.png");
     assets->AddTexture("enemy", "assets/enemy_anims.png");
     assets->AddTexture("projectile", "assets/pot_leaf.png");
@@ -92,15 +92,15 @@ void Game::init(const char* title, int x, int y, int w, int h, bool fullscreen)
 
     map = new Map("terrain", 3, 32);
 
-    map->LoadMap("assets/map.map", 25, 20);
+    map->LoadMap("assets/tilemap.map", 16, 16);
 
-    player.addComponent<TransformComponent>(640, 680, 32, 32, 3);
+    player.addComponent<TransformComponent>(320, 680, 32, 32, 3);
     player.addComponent<SpriteComponent>("player", true);
     player.addComponent<KeyboardController>();
     player.addComponent<ColliderComponent>("player");
     player.addGroup(groupPlayers);
 
-    enemy.addComponent<TransformComponent>(720, 680, 32, 32, 3);
+    enemy.addComponent<TransformComponent>(480, 680, 32, 32, 3);
     enemy.addComponent<SpriteComponent>("enemy", true);
     enemy.addComponent<ColliderComponent>("enemy");
     enemy.addGroup(groupEnemies);
